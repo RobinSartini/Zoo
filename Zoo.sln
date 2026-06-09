@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zoo.UniTests", "Zoo.UniTests\Zoo.UniTests.csproj", "{DEF1AD9A-0054-4830-8071-F0357D8FB04D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zoo.Domain", "Zoo.Domain\Zoo.Domain.csproj", "{36D5B2CF-9A00-4A6B-A494-EE12AD62F119}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DEF1AD9A-0054-4830-8071-F0357D8FB04D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEF1AD9A-0054-4830-8071-F0357D8FB04D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEF1AD9A-0054-4830-8071-F0357D8FB04D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEF1AD9A-0054-4830-8071-F0357D8FB04D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36D5B2CF-9A00-4A6B-A494-EE12AD62F119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36D5B2CF-9A00-4A6B-A494-EE12AD62F119}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36D5B2CF-9A00-4A6B-A494-EE12AD62F119}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36D5B2CF-9A00-4A6B-A494-EE12AD62F119}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
