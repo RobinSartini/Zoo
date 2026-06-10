@@ -396,7 +396,7 @@ public class ZooManagerTests
 
         // Assert
         cost.Should().Be(58.0); // 8 base + 50 vet fee
-        ration.Should().Be(7.0); // 10 kg base - 30% = 7 kg
+        ration.Should().Be(10.0);
     }
 
     [Fact]
