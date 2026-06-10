@@ -53,5 +53,5 @@ public class ZooManager
     }
 
     public double CalculateMonthlyCost() => CalculateDailyCost() * 30;
-    public IReadOnlyList<Animal> GetAnimalsByCategory(AnimalCategory category) => throw new NotImplementedException();
+    public IReadOnlyList<Animal> GetAnimalsByCategory(AnimalCategory category) => _animals.Values.Where(a => a.Category == category).ToList().AsReadOnly();
 }
