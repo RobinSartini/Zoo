@@ -2,6 +2,6 @@
 public enum HealthStatus
 {
     Healthy,
-    Sick,
-    Critical
+    Sick = 20,
+    Critical = 50
 }
