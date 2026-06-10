@@ -85,4 +85,34 @@ public class ZooManagerTests
         // Assert
         result.Should().BeNull();
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-004")]
+    public void TotalAnimals_EmptyZoo_ReturnsZero()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+
+        // Act
+        var result = zoo.TotalAnimals;
+
+        // Assert
+        result.Should().Be(0);
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-004")]
+    public void TotalAnimals_AfterTwoAdditions_ReturnsTwo()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore });
+        zoo.AddAnimal(new Animal { Id = 2, Name = "Dumbo", Category = AnimalCategory.Herbivore });
+
+        // Act
+        var result = zoo.TotalAnimals;
+
+        // Assert
+        result.Should().Be(2);
+    }
 }
