@@ -6,7 +6,7 @@ public class ZooManager
     private readonly Dictionary<int, Animal> _animals = new();
     public int AddAnimal(Animal animal)
     {
-        if (_animals.Count == MaxCapacity) throw new ZooCapacityExceededException();
+        if (TotalCapacityUsed >= MaxCapacity) throw new ZooCapacityExceededException();
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(animal.Id);
         if (_animals.ContainsKey(animal.Id)) throw new DuplicateAnimalException(animal.Id);
         ArgumentException.ThrowIfNullOrEmpty(animal.Name);
@@ -22,7 +22,7 @@ public class ZooManager
     }
 
     public int TotalAnimals => _animals.Count;
-    public int TotalCapacityUsed => throw new NotImplementedException();
+    public int TotalCapacityUsed => _animals.Sum(a => a.Value.Status == HealthStatus.Critical ? 2 : 1);
     public double CalculateDailyRation(int animalId) => throw new NotImplementedException();
     public double CalculateDailyCost() => throw new NotImplementedException();
     public IReadOnlyList<Animal> GetCriticalAnimals() => throw new
