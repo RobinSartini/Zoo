@@ -132,4 +132,43 @@ public class ZooManagerTests
         action.Should().Throw<DuplicateAnimalException>()
             .WithMessage("An animal with id 1 already exists.");
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-006")]
+    public void AddAnimal_FiftyFirstAnimal_ThrowsZooCapacityExceededException()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        for (int i = 1; i <= 50; i++)
+        {
+            zoo.AddAnimal(new Animal { Id = i, Name = f"Animal{i}", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy });
+        }
+        var extraAnimal = new Animal { Id = 51, Name = "Extra", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy };
+
+        // Act
+        var action = () => zoo.AddAnimal(extraAnimal);
+
+        // Assert
+        action.Should().Throw<ZooCapacityExceededException>()
+            .WithMessage("Zoo capacity (50 animals) exceeded.");
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-006")]
+    public void AddAnimal_FiftiethAnimal_Succeeds()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        for (int i = 1; i <= 49; i++)
+        {
+            zoo.AddAnimal(new Animal { Id = i, Name = f"Animal{i}", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy });
+        }
+        var fiftiethAnimal = new Animal { Id = 50, Name = "Fiftieth", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy };
+
+        // Act
+        var result = zoo.AddAnimal(fiftiethAnimal);
+
+        // Assert
+        result.Should().Be(50);
+    }
 }
