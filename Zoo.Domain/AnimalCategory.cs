@@ -1,7 +1,15 @@
 ﻿namespace Zoo.Domain;
-public enum AnimalCategory
+
+public sealed class AnimalCategory
 {
-    Carnivore = 5,
-    Herbivore = 10,
-    Omnivore = 7
+    public static readonly AnimalCategory Carnivore = new(nameof(Carnivore), ration: 5,  cost: 25);
+    public static readonly AnimalCategory Herbivore = new(nameof(Herbivore), ration: 10, cost: 12);
+    public static readonly AnimalCategory Omnivore  = new(nameof(Omnivore),  ration: 7,  cost: 18);
+
+    public string Name   { get; }
+    public double Ration { get; }
+    public double Cost   { get; }
+
+    private AnimalCategory(string name, double ration, double cost)
+        => (Name, Ration, Cost) = (name, ration, cost);
 }

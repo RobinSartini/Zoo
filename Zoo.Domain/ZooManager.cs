@@ -24,7 +24,7 @@ public class ZooManager
     public int TotalAnimals => _animals.Count;
     public int TotalCapacityUsed => _animals.Sum(a => a.Value.Status == HealthStatus.Critical ? 2 : 1);
 
-    private double GetRationByCategory(AnimalCategory category) => Convert.ToDouble(category);
+    private double GetRationByCategory(AnimalCategory category) => category.Ration;
     
     public double CalculateDailyRation(int animalId)
     {
