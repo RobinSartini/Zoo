@@ -504,4 +504,70 @@ public class ZooManagerTests
         // Assert
         result.Should().BeNull();
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-016")]
+    [Trait("TestCase", "TC-029")]
+    public void CalculateMonthlyCost_OneCarnivoreHealthy_ReturnsSevenHundredFiftyEuros()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Healthy });
+
+        // Act
+        var result = zoo.CalculateMonthlyCost();
+
+        // Assert
+        result.Should().Be(750.0);
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-016")]
+    [Trait("TestCase", "TC-030")]
+    public void CalculateMonthlyCost_MixedZoo_ReturnsSumTimesThirty()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Healthy });
+        zoo.AddAnimal(new Animal { Id = 2, Name = "Dumbo", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy });
+        zoo.AddAnimal(new Animal { Id = 3, Name = "Baloo", Category = AnimalCategory.Omnivore, Status = HealthStatus.Healthy });
+
+        // Act
+        var result = zoo.CalculateMonthlyCost();
+
+        // Assert
+        result.Should().Be(1440.0); // 48 * 30
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-016")]
+    [Trait("TestCase", "TC-031")]
+    public void CalculateMonthlyCost_WithSickAnimal_ReturnsExpectedCost()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Sick });
+
+        // Act
+        var result = zoo.CalculateMonthlyCost();
+
+        // Assert
+        result.Should().Be(1350.0); // 45 * 30
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-016")]
+    [Trait("TestCase", "TC-032")]
+    public void CalculateMonthlyCost_EmptyZoo_ReturnsZero()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+
+        // Act
+        var result = zoo.CalculateMonthlyCost();
+
+        // Assert
+        result.Should().Be(0.0);
+    }
 }
+
