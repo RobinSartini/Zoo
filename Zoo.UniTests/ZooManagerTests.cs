@@ -354,4 +354,22 @@ public class ZooManagerTests
         // Assert
         result.Should().Be(0.0);
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-011")]
+    public void CalculateDailyCost_SickAnimal_IncludesVetFee()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        var sickCarnivore = new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Sick };
+        zoo.AddAnimal(sickCarnivore);
+
+        // Act
+        var cost = zoo.CalculateDailyCost();
+        var ration = zoo.CalculateDailyRation(1);
+
+        // Assert
+        cost.Should().Be(45.0); // 25 base + 20 vet fee
+        ration.Should().Be(3.5); // 5 kg base - 30% = 3.5 kg
+    }
 }
