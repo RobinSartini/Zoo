@@ -51,6 +51,7 @@ public class ZooManager
         var animalId = animal?.Id ?? -1;
         return _animals.Remove(animalId);
     }
-    public double CalculateMonthlyCost() => throw new NotImplementedException();
+
+    public double CalculateMonthlyCost() => CalculateDailyCost() * 30;
     public IReadOnlyList<Animal> GetAnimalsByCategory(AnimalCategory category) => throw new NotImplementedException();
 }
