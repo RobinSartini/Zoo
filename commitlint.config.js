@@ -36,7 +36,7 @@ module.exports = {
     },
   ],
   rules: {
-    'type-enum': [2, 'always', ['red', 'green', 'refactor', 'chore', 'docs', 'ci', 'test']],
+    'type-enum': [2, 'always', ['red', 'green', 'refactor', 'chore', 'docs', 'ci', 'test', 'feat', 'fix']],
     'type-empty': [2, 'never'],
     'subject-empty': [2, 'never'],
     'scope-case': [0],
