@@ -462,4 +462,18 @@ public class ZooManagerTests
         // Assert
         result.Should().BeNull();
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-015")]
+    public void RemoveAnimal_NonExistingAnimal_ReturnsFalse()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+
+        // Act
+        var result = zoo.RemoveAnimal(99);
+
+        // Assert
+        result.Should().BeFalse();
+    }
 }
