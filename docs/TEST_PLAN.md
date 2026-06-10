@@ -1,4 +1,4 @@
-**PLAN DE TEST**
+# PLAN DE TEST
 
 ZooManager - Système de gestion du Zoo Municipal de Lyon
 
@@ -12,7 +12,7 @@ ZooManager - Système de gestion du Zoo Municipal de Lyon
 
 **Framework :** xUnit 2.9.0 + FluentAssertions 6.12.0 · .NET 8
 
-# **1\. Identification**
+# 1. Identification
 
 | **Projet**  | Zoo - Système de gestion du Zoo Municipal de Lyon |
 | ----------- | ------------------------------------------------- |
@@ -21,18 +21,20 @@ ZooManager - Système de gestion du Zoo Municipal de Lyon
 | **Date**    | 2026-06-09                                        |
 | **Statut**  | **Validé**                                        |
 
-# **2\. Périmètre**
+# 2. Périmètre
 
-## **2.1 In Scope**
+## 2.1 In Scope
 
-- Classe ZooManager - toutes les méthodes publiques : AddAnimal, GetAnimal, TotalAnimals, TotalCapacityUsed, CalculateDailyRation, CalculateDailyCost, GetCriticalAnimals, RemoveAnimal
+- Classe ZooManager - toutes les méthodes publiques : AddAnimal, GetAnimal, TotalAnimals, TotalCapacityUsed, CalculateDailyRation, CalculateDailyCost, **CalculateMonthlyCost**, GetCriticalAnimals, **GetAnimalsByCategory**, RemoveAnimal
 - Classe Animal et ses propriétés
 - Énumérations AnimalCategory (Carnivore, Herbivore, Omnivore) et HealthStatus (Healthy, Sick, Critical)
 - Exceptions métier : DuplicateAnimalException, ZooCapacityExceededException
 - Règles de calcul des rations et des coûts journaliers
 - Règles de capacité (50 animaux, animal Critical = 2 places)
+- **[BONUS] Calcul du coût mensuel (30 jours)**
+- **[BONUS] Filtrage des animaux par catégorie alimentaire**
 
-## **2.2 Out of Scope**
+## 2.2 Out of Scope
 
 - Persistance en base de données
 - Interface utilisateur (IHM)
@@ -41,7 +43,7 @@ ZooManager - Système de gestion du Zoo Municipal de Lyon
 - Tests de performance et de charge
 - Tests de sécurité
 
-# **3\. Stratégie de test**
+# 3. Stratégie de test
 
 ## **3.1 Methodologie**
 
@@ -53,13 +55,13 @@ La campagne suit strictement le cycle TDD (Test-Driven Development) :
 
 Chaque exigence donne lieu à au minimum un commit « test rouge » suivi d'un commit « code vert ». L'historique Git doit refléter ce cycle de manière traçable.
 
-## **3.2 Types de tests prévus**
+## 3.2 Types de tests prévus
 
 - Tests unitaires (xUnit + FluentAssertions) : couverture des 15 exigences fonctionnelles.
 - Tests nominaux (happy path) : comportement attendu avec des données valides.
 - Tests alternatifs : variantes valides (ex : animal Sick, animal Critical).
 - Tests d'erreur (sad path) : entrées invalides, doublons, dépassement de capacité.
-- Tests paramétrés \[Theory\] : pour couvrir les trois catégories d'animaux en une seule méthode.
+- Tests paramétrés [Theory] : pour couvrir les trois catégories d'animaux en une seule méthode.
 
 ## **3.3 Traçabilité dans le code**
 
@@ -67,7 +69,7 @@ Chaque test est annoté avec \[Trait("Requirement", "REQ-Z-XXX")\] pour permettr
 
 dotnet test --filter "Requirement=REQ-Z-006"
 
-# **4\. Critères d'entrée**
+# 4. Critères d'entrée
 
 - Spécifications métier validées (section IV du sujet TP Zoo).
 - Squelette de classes fourni : ZooManager, Animal, AnimalCategory, HealthStatus, exceptions.
@@ -75,9 +77,10 @@ dotnet test --filter "Requirement=REQ-Z-006"
 - Packages NuGet installés : xUnit 2.9.0, FluentAssertions 6.12.0, coverlet.collector.
 - Environnement de développement opérationnel (IDE, CLI dotnet).
 
-# **5\. Critères de sortie**
+# 5. Critères de sortie
 
-- 100 % des 15 exigences (REQ-Z-001 à REQ-Z-015) couvertes par au moins un cas de test.
+- 100 % des **17 exigences** (REQ-Z-001 à REQ-Z-015 + REQ-Z-016 et REQ-Z-017) couvertes par au moins un cas de test.
+- Les exigences bonus REQ-Z-016 et REQ-Z-017 respectent le cycle TDD (commit rouge + commit vert documentés).
 - Tous les tests passent au vert (0 échec, 0 test ignoré).
 - Couverture de lignes >= 95 % sur la classe ZooManager.
 - Couverture de branches >= 90 % sur ZooManager.
@@ -85,7 +88,7 @@ dotnet test --filter "Requirement=REQ-Z-006"
 - Historique Git : au moins un commit rouge + un commit vert par exigence.
 - Rapport de test (TEST_REPORT.md) rédigé avec les métriques réelles d'exécution.
 
-# **6\. Environnement**
+# 6. Environnement
 
 | **Composant**                | **Version / Détail**                     |
 | ---------------------------- | ---------------------------------------- |
@@ -100,7 +103,7 @@ dotnet test --filter "Requirement=REQ-Z-006"
 | **Gestionnaire de packages** | NuGet                                    |
 | **CI/CD (optionnel)**        | GitHub Actions / Azure DevOps            |
 
-# **7\. Cas de test prévus**
+# 7. Cas de test prévus
 
 Chaque cas de test couvre une exigence métier identifiée. Les tests sont classés par méthode cible, avec indication du type (nominal, alternatif, erreur) et de la priorité.
 
@@ -134,30 +137,39 @@ Chaque cas de test couvre une exigence métier identifiée. Les tests sont class
 | **TC-026** | Retirer un animal existant retourne true                         | RemoveAnimal(1)                                            | true + TotalAnimals=0                                           | REQ-Z-014    |
 | **TC-027** | Retirer un animal inexistant retourne false                      | RemoveAnimal(99)                                           | false                                                           | REQ-Z-015    |
 | **TC-028** | Après suppression, GetAnimal retourne null                       | GetAnimal(1)                                               | null                                                            | REQ-Z-014    |
+| **TC-029** | ★ Coût mensuel = coût journalier × 30 (1 carnivore Healthy)     | CalculateMonthlyCost()                                     | 750.0 (25 × 30)                                                 | REQ-Z-016    |
+| **TC-030** | ★ Coût mensuel zoo mixte (Carnivore + Herbivore + Omnivore)      | CalculateMonthlyCost()                                     | 1440.0 (48 × 30)                                                | REQ-Z-016    |
+| **TC-031** | ★ Coût mensuel avec animal Sick inclus                           | CalculateMonthlyCost()                                     | 1350.0 (45 × 30)                                                | REQ-Z-016    |
+| **TC-032** | ★ Coût mensuel zoo vide = 0€                                     | CalculateMonthlyCost()                                     | 0.0                                                             | REQ-Z-016    |
+| **TC-033** | ★ Retourner les carnivores : liste de 2 éléments                 | GetAnimalsByCategory(Carnivore)                            | IReadOnlyList de 2 carnivores                                   | REQ-Z-017    |
+| **TC-034** | ★ Retourner les herbivores : liste de 1 élément                  | GetAnimalsByCategory(Herbivore)                            | IReadOnlyList de 1 herbivore                                    | REQ-Z-017    |
+| **TC-035** | ★ Retourner les omnivores : liste vide si aucun                  | GetAnimalsByCategory(Omnivore)                             | Liste vide (Count=0)                                            | REQ-Z-017    |
 
-# **8\. Matrice de traçabilité**
+# 8. Matrice de traçabilité
 
 Chaque exigence métier est reliée à au moins un cas de test. Cette matrice prouve l'exhaustivité de la couverture.
 
-| **ID Exigence** | **Description**                                 | **Cas de test**        | **Méthode couverte** | **Statut prévu** |
-| --------------- | ----------------------------------------------- | ---------------------- | -------------------- | ---------------- |
-| **REQ-Z-001**   | Ajouter un animal retourne l'ID assigné         | TC-001, TC-002         | AddAnimal            | À faire          |
-| **REQ-Z-002**   | Récupérer un animal par son ID                  | TC-003                 | GetAnimal            | À faire          |
-| **REQ-Z-003**   | Animal inexistant retourne null                 | TC-004                 | GetAnimal            | À faire          |
-| **REQ-Z-004**   | Nombre total d'animaux correct                  | TC-005, TC-006         | TotalAnimals         | À faire          |
-| **REQ-Z-005**   | ID dupliqué lève DuplicateAnimalException       | TC-007                 | AddAnimal            | À faire          |
-| **REQ-Z-006**   | Capacité maximale = 50 animaux                  | TC-008, TC-009         | AddAnimal            | À faire          |
-| **REQ-Z-007**   | Animal Critical occupe 2 places                 | TC-010, TC-011, TC-012 | TotalCapacityUsed    | À faire          |
-| **REQ-Z-008**   | Ration journalière selon catégorie              | TC-013, TC-014, TC-015 | CalculateDailyRation | À faire          |
-| **REQ-Z-009**   | Animal Sick : ration réduite de 30%             | TC-016, TC-017, TC-018 | CalculateDailyRation | À faire          |
-| **REQ-Z-010**   | Coût total journalier du zoo                    | TC-019, TC-020, TC-023 | CalculateDailyCost   | À faire          |
-| **REQ-Z-011**   | Animal Sick : +20€ vétérinaires/jour            | TC-021                 | CalculateDailyCost   | À faire          |
-| **REQ-Z-012**   | Animal Critical : +50€ vétérinaires/jour        | TC-022                 | CalculateDailyCost   | À faire          |
-| **REQ-Z-013**   | Retourner la liste des animaux Critical         | TC-024, TC-025         | GetCriticalAnimals   | À faire          |
-| **REQ-Z-014**   | Retirer un animal du zoo                        | TC-026, TC-028         | RemoveAnimal         | À faire          |
-| **REQ-Z-015**   | Animal inexistant : RemoveAnimal retourne false | TC-027                 | RemoveAnimal         | À faire          |
+| **ID Exigence**   | **Description**                                         | **Cas de test**              | **Méthode couverte**    | **Statut prévu** |
+| ----------------- | ------------------------------------------------------- | ---------------------------- | ----------------------- | ---------------- |
+| **REQ-Z-001**     | Ajouter un animal retourne l'ID assigné                 | TC-001, TC-002               | AddAnimal               | À faire          |
+| **REQ-Z-002**     | Récupérer un animal par son ID                          | TC-003                       | GetAnimal               | À faire          |
+| **REQ-Z-003**     | Animal inexistant retourne null                         | TC-004                       | GetAnimal               | À faire          |
+| **REQ-Z-004**     | Nombre total d'animaux correct                          | TC-005, TC-006               | TotalAnimals            | À faire          |
+| **REQ-Z-005**     | ID dupliqué lève DuplicateAnimalException               | TC-007                       | AddAnimal               | À faire          |
+| **REQ-Z-006**     | Capacité maximale = 50 animaux                          | TC-008, TC-009               | AddAnimal               | À faire          |
+| **REQ-Z-007**     | Animal Critical occupe 2 places                         | TC-010, TC-011, TC-012       | TotalCapacityUsed       | À faire          |
+| **REQ-Z-008**     | Ration journalière selon catégorie                      | TC-013, TC-014, TC-015       | CalculateDailyRation    | À faire          |
+| **REQ-Z-009**     | Animal Sick : ration réduite de 30%                     | TC-016, TC-017, TC-018       | CalculateDailyRation    | À faire          |
+| **REQ-Z-010**     | Coût total journalier du zoo                            | TC-019, TC-020, TC-023       | CalculateDailyCost      | À faire          |
+| **REQ-Z-011**     | Animal Sick : +20€ vétérinaires/jour                    | TC-021                       | CalculateDailyCost      | À faire          |
+| **REQ-Z-012**     | Animal Critical : +50€ vétérinaires/jour                | TC-022                       | CalculateDailyCost      | À faire          |
+| **REQ-Z-013**     | Retourner la liste des animaux Critical                 | TC-024, TC-025               | GetCriticalAnimals      | À faire          |
+| **REQ-Z-014**     | Retirer un animal du zoo                                | TC-026, TC-028               | RemoveAnimal            | À faire          |
+| **REQ-Z-015**     | Animal inexistant : RemoveAnimal retourne false         | TC-027                       | RemoveAnimal            | À faire          |
+| **REQ-Z-016 ★**   | Coût mensuel du zoo (30 jours)                          | TC-029, TC-030, TC-031, TC-032 | CalculateMonthlyCost  | À faire          |
+| **REQ-Z-017 ★**   | Retourner les animaux par catégorie alimentaire         | TC-033, TC-034, TC-035       | GetAnimalsByCategory    | À faire          |
 
-# **9\. Risques identifiés et mitigations**
+# 9. Risques identifiés et mitigations
 
 | **Risque**                                                                                    | **Probabilité** | **Impact** | **Mitigation**                                                                                                     |
 | --------------------------------------------------------------------------------------------- | --------------- | ---------- | ------------------------------------------------------------------------------------------------------------------ |
@@ -168,12 +180,14 @@ Chaque exigence métier est reliée à au moins un cas de test. Cette matrice pr
 | Capacité : oubli que Critical consomme 2 places dans le compteur de capacité                  | Moyenne         | Élevé      | Ajouter TC-008 avec un mix d'animaux incluant des Critical pour valider le refus à 50 places.                      |
 | Calcul du coût Critical : ration réduite ET +50€ - double règle à ne pas omettre              | Moyenne         | Moyen      | Créer un cas de test dédié TC-022 avec un animal Critical et vérifier ration + coût séparément.                    |
 | Tests non déterministes (dépendance à l'ordre, au temps)                                      | Faible          | Moyen      | Chaque test instancie son propre ZooManager. Pas de state partagé entre tests.                                     |
+| ★ REQ-Z-016 : CalculateMonthlyCost dépend de CalculateDailyCost — régression possible si modifié | Moyenne      | Élevé      | Implémenter CalculateMonthlyCost comme CalculateDailyCost() × 30. Tout changement sur CalculateDailyCost doit relancer TC-029 à TC-032. |
+| ★ REQ-Z-017 : GetAnimalsByCategory doit retourner liste vide (pas null) si aucun animal trouvé | Haute          | Moyen      | Ajouter TC-035 : cas liste vide pour Omnivore. Vérifier Count=0 et non NullReferenceException.                     |
 
-# **10\. Responsabilités**
+# 10. Responsabilités
 
-| **Rôle**                  | **Responsable** | **Activités**                                                            |
-| ------------------------- | --------------- | ------------------------------------------------------------------------ |
-| **Développeur / Testeur** | \[Prénom Nom\]  | Rédaction du plan, écriture des tests, implémentation TDD, rapport final |
-| **Formateur / Valideur**  | Kake Abdoulaye  | Validation du plan de test, revue de la matrice de traçabilité, notation |
+| **Rôle**                  | **Responsable**                           | **Activités**                                                            |
+| ------------------------- | ----------------------------------------- | ------------------------------------------------------------------------ |
+| **Développeur / Testeur** | Sartini Robin / Nouali Malcom / Martel Nathan | Rédaction du plan, écriture des tests, implémentation TDD, rapport final |
+| **Formateur / Valideur**  | Kake Abdoulaye                            | Validation du plan de test, revue de la matrice de traçabilité, notation |
 
 _Ce plan de test doit être validé avant toute ligne de code de production (exigence TDD stricte)._

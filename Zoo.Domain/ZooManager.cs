@@ -27,4 +27,6 @@ public class ZooManager
     public IReadOnlyList<Animal> GetCriticalAnimals() => throw new
         NotImplementedException();
     public bool RemoveAnimal(int id) => throw new NotImplementedException();
+    public double CalculateMonthlyCost() => throw new NotImplementedException();
+    public IReadOnlyList<Animal> GetAnimalsByCategory(AnimalCategory category) => throw new NotImplementedException();
 }
