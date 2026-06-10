@@ -141,7 +141,7 @@ public class ZooManagerTests
         var zoo = new ZooManager();
         for (int i = 1; i <= 50; i++)
         {
-            zoo.AddAnimal(new Animal { Id = i, Name = f"Animal{i}", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy });
+            zoo.AddAnimal(new Animal { Id = i, Name = $"Animal{i}", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy });
         }
         var extraAnimal = new Animal { Id = 51, Name = "Extra", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy };
 
@@ -161,7 +161,7 @@ public class ZooManagerTests
         var zoo = new ZooManager();
         for (int i = 1; i <= 49; i++)
         {
-            zoo.AddAnimal(new Animal { Id = i, Name = f"Animal{i}", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy });
+            zoo.AddAnimal(new Animal { Id = i, Name = $"Animal{i}", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy });
         }
         var fiftiethAnimal = new Animal { Id = 50, Name = "Fiftieth", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy };
 
