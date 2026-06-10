@@ -24,7 +24,7 @@ public class ZooManager
     public int TotalAnimals => _animals.Count;
     public int TotalCapacityUsed => _animals.Sum(a => a.Value.Status == HealthStatus.Critical ? 2 : 1);
 
-    public double GetRation(AnimalCategory category) => Convert.ToDouble(category);
+    public double GetRationByCategory(AnimalCategory category) => Convert.ToDouble(category);
     
     public double CalculateDailyRation(int animalId)
     {
@@ -32,7 +32,7 @@ public class ZooManager
         
         ArgumentNullException.ThrowIfNull(animal);
 
-        var ration = GetRation(animal.Category);
+        var ration = GetRationByCategory(animal.Category);
         
         return animal.Status == HealthStatus.Sick ? ration - ration * 0.3 :  ration;
     }
