@@ -44,8 +44,8 @@ public class ZooManager
         if (TotalAnimals == 0) return 0;
         return _animals.Sum(animal => GetCostByCategory(animal.Value.Category) + Convert.ToDouble(animal.Value.Status));
     }
-    public IReadOnlyList<Animal> GetCriticalAnimals() => throw new
-        NotImplementedException();
+
+    public IReadOnlyList<Animal> GetCriticalAnimals() => _animals.Values.Where(a => a.Status == HealthStatus.Critical).ToList().AsReadOnly();
     public bool RemoveAnimal(int id) => throw new NotImplementedException();
     public double CalculateMonthlyCost() => throw new NotImplementedException();
     public IReadOnlyList<Animal> GetAnimalsByCategory(AnimalCategory category) => throw new NotImplementedException();
