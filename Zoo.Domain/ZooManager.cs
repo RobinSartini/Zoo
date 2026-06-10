@@ -20,7 +20,7 @@ public class ZooManager
         return isNull ? null : _animals[id];
     }
 
-    public int TotalAnimals => throw new NotImplementedException();
+    public int TotalAnimals => _animals.Count;
     public int TotalCapacityUsed => throw new NotImplementedException();
     public double CalculateDailyRation(int animalId) => throw new NotImplementedException();
     public double CalculateDailyCost() => throw new NotImplementedException();
