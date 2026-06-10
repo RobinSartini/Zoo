@@ -16,9 +16,10 @@ public class ZooManager
 
     public Animal? GetAnimal(int id)
     {
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id);
-        return _animals.ContainsKey(id) ? _animals[id] : null;
+        var isNull = id <= 0 || !_animals.ContainsKey(id);
+        return isNull ? null : _animals[id];
     }
+
     public int TotalAnimals => throw new NotImplementedException();
     public int TotalCapacityUsed => throw new NotImplementedException();
     public double CalculateDailyRation(int animalId) => throw new NotImplementedException();
