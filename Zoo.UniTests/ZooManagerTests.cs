@@ -1,24 +1,50 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Xunit;
 using Zoo.Domain;
+
 namespace Zoo.UnitTests;
+
 public class ZooManagerTests
 {
     [Fact]
     [Trait("Requirement", "REQ-Z-001")]
-    public void AddAnimal_ValidAnimal_ReturnsAssignedId()
+    public void AddAnimal_CarnivoreHealthy_ReturnsId()
     {
-// Arrange
+        // Arrange
         var zoo = new ZooManager();
-        var lion = new Animal
+        var animal = new Animal
         {
             Id = 1,
             Name = "Simba",
-            Category = AnimalCategory.Carnivore
+            Category = AnimalCategory.Carnivore,
+            Status = HealthStatus.Healthy
         };
-// Act
-        var assignedId = zoo.AddAnimal(lion);
-// Assert
-        assignedId.Should().Be(1);
+
+        // Act
+        var result = zoo.AddAnimal(animal);
+
+        // Assert
+        result.Should().Be(1);
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-001")]
+    public void AddAnimal_HerbivoreHealthy_ReturnsId()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        var animal = new Animal
+        {
+            Id = 2,
+            Name = "Dumbo",
+            Category = AnimalCategory.Herbivore,
+            Status = HealthStatus.Healthy
+        };
+
+        // Act
+        var result = zoo.AddAnimal(animal);
+
+        // Assert
+        result.Should().Be(2);
     }
 }
