@@ -6,6 +6,7 @@ public class ZooManager
     private readonly Dictionary<int, Animal> _animals = new();
     public int AddAnimal(Animal animal)
     {
+        if (_animals.Count == MaxCapacity) throw new ZooCapacityExceededException();
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(animal.Id);
         if (_animals.ContainsKey(animal.Id)) throw new DuplicateAnimalException(animal.Id);
         ArgumentException.ThrowIfNullOrEmpty(animal.Name);
