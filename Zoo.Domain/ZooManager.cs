@@ -41,7 +41,8 @@ public class ZooManager
 
     public double CalculateDailyCost()
     {
-        return _animals.Sum(animal => GetCostByCategory(animal.Value.Category));
+        if (TotalAnimals == 0) return 0;
+        return _animals.Sum(animal => GetCostByCategory(animal.Value.Category) + Convert.ToDouble(animal.Value.Status));
     }
     public IReadOnlyList<Animal> GetCriticalAnimals() => throw new
         NotImplementedException();
