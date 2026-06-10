@@ -390,4 +390,44 @@ public class ZooManagerTests
         cost.Should().Be(58.0); // 8 base + 50 vet fee
         ration.Should().Be(7.0); // 10 kg base - 30% = 7 kg
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-013")]
+    public void GetCriticalAnimals_WithCriticalAnimals_ReturnsThem()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        var a1 = new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Critical };
+        var a2 = new Animal { Id = 2, Name = "Dumbo", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy };
+        var a3 = new Animal { Id = 3, Name = "Baloo", Category = AnimalCategory.Omnivore, Status = HealthStatus.Critical };
+
+        zoo.AddAnimal(a1);
+        zoo.AddAnimal(a2);
+        zoo.AddAnimal(a3);
+
+        // Act
+        var result = zoo.GetCriticalAnimals();
+
+        // Assert
+        result.Should().HaveCount(2)
+            .And.Contain(a1)
+            .And.Contain(a3)
+            .And.NotContain(a2);
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-013")]
+    public void GetCriticalAnimals_NoCriticalAnimals_ReturnsEmptyList()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Healthy });
+        zoo.AddAnimal(new Animal { Id = 2, Name = "Dumbo", Category = AnimalCategory.Herbivore, Status = HealthStatus.Sick });
+
+        // Act
+        var result = zoo.GetCriticalAnimals();
+
+        // Assert
+        result.Should().BeEmpty();
+    }
 }
