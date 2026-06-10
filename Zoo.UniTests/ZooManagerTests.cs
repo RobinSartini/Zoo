@@ -372,4 +372,22 @@ public class ZooManagerTests
         cost.Should().Be(45.0); // 25 base + 20 vet fee
         ration.Should().Be(3.5); // 5 kg base - 30% = 3.5 kg
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-012")]
+    public void CalculateDailyCost_CriticalAnimal_IncludesVetFee()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        var criticalHerbivore = new Animal { Id = 2, Name = "Dumbo", Category = AnimalCategory.Herbivore, Status = HealthStatus.Critical };
+        zoo.AddAnimal(criticalHerbivore);
+
+        // Act
+        var cost = zoo.CalculateDailyCost();
+        var ration = zoo.CalculateDailyRation(2);
+
+        // Assert
+        cost.Should().Be(58.0); // 8 base + 50 vet fee
+        ration.Should().Be(7.0); // 10 kg base - 30% = 7 kg
+    }
 }
