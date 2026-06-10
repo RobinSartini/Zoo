@@ -36,7 +36,13 @@ public class ZooManager
         
         return animal.Status == HealthStatus.Sick ? ration - ration * 0.3 :  ration;
     }
-    public double CalculateDailyCost() => throw new NotImplementedException();
+    
+    private double GetCostByCategory(AnimalCategory category) => category.Cost;
+
+    public double CalculateDailyCost()
+    {
+        return _animals.Sum(animal => GetCostByCategory(animal.Value.Category));
+    }
     public IReadOnlyList<Animal> GetCriticalAnimals() => throw new
         NotImplementedException();
     public bool RemoveAnimal(int id) => throw new NotImplementedException();
