@@ -13,8 +13,12 @@ public class ZooManager
         _animals.Add(animal.Id, animal);
         return animal.Id;
     }
-    
-    public Animal? GetAnimal(int id) => throw new NotImplementedException();
+
+    public Animal? GetAnimal(int id)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id);
+        return _animals.ContainsKey(id) ? _animals[id] : null;
+    }
     public int TotalAnimals => throw new NotImplementedException();
     public int TotalCapacityUsed => throw new NotImplementedException();
     public double CalculateDailyRation(int animalId) => throw new NotImplementedException();
