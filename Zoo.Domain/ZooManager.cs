@@ -7,7 +7,7 @@ public class ZooManager
     public int AddAnimal(Animal animal)
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(animal.Id);
-        if (_animals.ContainsKey(animal.Id)) throw new InvalidOperationException($"{animal.Id} already exists");
+        if (_animals.ContainsKey(animal.Id)) throw new DuplicateAnimalException(animal.Id);
         ArgumentException.ThrowIfNullOrEmpty(animal.Name);
         ArgumentNullException.ThrowIfNull(animal);
         _animals.Add(animal.Id, animal);
