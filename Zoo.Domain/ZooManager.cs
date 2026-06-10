@@ -1,3 +1,5 @@
+using System.Data.SqlTypes;
+
 namespace Zoo.Domain;
 
 public class ZooManager
@@ -42,7 +44,11 @@ public class ZooManager
     public double CalculateDailyCost() => _animals.Sum(animal => GetCostByCategory(animal.Value.Category) + Convert.ToDouble(animal.Value.Status));
 
     public IReadOnlyList<Animal> GetCriticalAnimals() => _animals.Values.Where(a => a.Status == HealthStatus.Critical).ToList().AsReadOnly();
-    public bool RemoveAnimal(int id) => throw new NotImplementedException();
+
+    public bool RemoveAnimal(int id)
+    {
+        return _animals.Remove(id);
+    }
     public double CalculateMonthlyCost() => throw new NotImplementedException();
     public IReadOnlyList<Animal> GetAnimalsByCategory(AnimalCategory category) => throw new NotImplementedException();
 }
