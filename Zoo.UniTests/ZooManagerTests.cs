@@ -569,5 +569,67 @@ public class ZooManagerTests
         // Assert
         result.Should().Be(0.0);
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-017")]
+    [Trait("TestCase", "TC-033")]
+    public void GetAnimalsByCategory_Carnivores_ReturnsTwoElements()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        var a1 = new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore };
+        var a2 = new Animal { Id = 2, Name = "Nala", Category = AnimalCategory.Carnivore };
+        var a3 = new Animal { Id = 3, Name = "Dumbo", Category = AnimalCategory.Herbivore };
+        zoo.AddAnimal(a1);
+        zoo.AddAnimal(a2);
+        zoo.AddAnimal(a3);
+
+        // Act
+        var result = zoo.GetAnimalsByCategory(AnimalCategory.Carnivore);
+
+        // Assert
+        result.Should().HaveCount(2)
+            .And.Contain(a1)
+            .And.Contain(a2)
+            .And.NotContain(a3);
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-017")]
+    [Trait("TestCase", "TC-034")]
+    public void GetAnimalsByCategory_Herbivores_ReturnsOneElement()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        var a1 = new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore };
+        var a2 = new Animal { Id = 2, Name = "Dumbo", Category = AnimalCategory.Herbivore };
+        zoo.AddAnimal(a1);
+        zoo.AddAnimal(a2);
+
+        // Act
+        var result = zoo.GetAnimalsByCategory(AnimalCategory.Herbivore);
+
+        // Assert
+        result.Should().HaveCount(1)
+            .And.Contain(a2)
+            .And.NotContain(a1);
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-017")]
+    [Trait("TestCase", "TC-035")]
+    public void GetAnimalsByCategory_NoAnimalsFound_ReturnsEmptyList()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore });
+        zoo.AddAnimal(new Animal { Id = 2, Name = "Dumbo", Category = AnimalCategory.Herbivore });
+
+        // Act
+        var result = zoo.GetAnimalsByCategory(AnimalCategory.Omnivore);
+
+        // Assert
+        result.Should().BeEmpty();
+    }
 }
 
