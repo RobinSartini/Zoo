@@ -4,7 +4,15 @@ public class ZooManager
 {
     public const int MaxCapacity = 50;
     private readonly Dictionary<int, Animal> _animals = new();
-    public int AddAnimal(Animal animal) => throw new NotImplementedException();
+    public int AddAnimal(Animal animal)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(animal.Id);
+        if (_animals.ContainsKey(animal.Id)) throw new InvalidOperationException($"{animal.Id} already exists");
+        ArgumentException.ThrowIfNullOrEmpty(animal.Name);
+        ArgumentNullException.ThrowIfNull(animal);
+        _animals.Add(animal.Id, animal);
+        return animal.Id;
+    }
     
     public Animal? GetAnimal(int id) => throw new NotImplementedException();
     public int TotalAnimals => throw new NotImplementedException();
