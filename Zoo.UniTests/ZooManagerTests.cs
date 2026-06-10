@@ -218,4 +218,49 @@ public class ZooManagerTests
         // Assert
         result.Should().Be(2);
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-008")]
+    public void CalculateDailyRation_CarnivoreHealthy_ReturnsFiveKg()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Healthy });
+
+        // Act
+        var result = zoo.CalculateDailyRation(1);
+
+        // Assert
+        result.Should().Be(5.0);
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-008")]
+    public void CalculateDailyRation_HerbivoreHealthy_ReturnsTenKg()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 2, Name = "Dumbo", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy });
+
+        // Act
+        var result = zoo.CalculateDailyRation(2);
+
+        // Assert
+        result.Should().Be(10.0);
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-008")]
+    public void CalculateDailyRation_OmnivoreHealthy_ReturnsSevenKg()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 3, Name = "Baloo", Category = AnimalCategory.Omnivore, Status = HealthStatus.Healthy });
+
+        // Act
+        var result = zoo.CalculateDailyRation(3);
+
+        // Assert
+        result.Should().Be(7.0);
+    }
 }
