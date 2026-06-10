@@ -1,14 +1,10 @@
-﻿namespace Zoo.Domain;
+namespace Zoo.Domain;
 
 public class ZooManager
 {
     public const int MaxCapacity = 50;
     private readonly Dictionary<int, Animal> _animals = new();
     public int AddAnimal(Animal animal) => throw new NotImplementedException();
-    {
-        _animals[animal.Id] = animal;
-        return animal.Id;
-    }
     
     public Animal? GetAnimal(int id) => throw new NotImplementedException();
     public int TotalAnimals => throw new NotImplementedException();
