@@ -308,4 +308,50 @@ public class ZooManagerTests
         // Assert
         result.Should().Be(4.9);
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-010")]
+    public void CalculateDailyCost_OneCarnivoreHealthy_ReturnsTwentyFiveEuros()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Healthy });
+
+        // Act
+        var result = zoo.CalculateDailyCost();
+
+        // Assert
+        result.Should().Be(25.0);
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-010")]
+    public void CalculateDailyCost_MultipleAnimals_ReturnsSumOfCosts()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Healthy });
+        zoo.AddAnimal(new Animal { Id = 2, Name = "Dumbo", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy });
+        zoo.AddAnimal(new Animal { Id = 3, Name = "Baloo", Category = AnimalCategory.Omnivore, Status = HealthStatus.Healthy });
+
+        // Act
+        var result = zoo.CalculateDailyCost();
+
+        // Assert
+        result.Should().Be(48.0);
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-010")]
+    public void CalculateDailyCost_EmptyZoo_ReturnsZero()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+
+        // Act
+        var result = zoo.CalculateDailyCost();
+
+        // Assert
+        result.Should().Be(0.0);
+    }
 }
