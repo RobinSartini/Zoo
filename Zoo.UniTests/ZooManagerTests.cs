@@ -47,4 +47,28 @@ public class ZooManagerTests
         // Assert
         result.Should().Be(2);
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-002")]
+    public void GetAnimal_ExistingAnimal_ReturnsAnimal()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        var animal = new Animal
+        {
+            Id = 1,
+            Name = "Simba",
+            Category = AnimalCategory.Carnivore,
+            Status = HealthStatus.Healthy
+        };
+        zoo.AddAnimal(animal);
+
+        // Act
+        var result = zoo.GetAnimal(1);
+
+        // Assert
+        result.Should().NotBeNull();
+        result!.Id.Should().Be(1);
+        result.Name.Should().Be("Simba");
+    }
 }
