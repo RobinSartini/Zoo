@@ -71,4 +71,18 @@ public class ZooManagerTests
         result!.Id.Should().Be(1);
         result.Name.Should().Be("Simba");
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-003")]
+    public void GetAnimal_NonExistingAnimal_ReturnsNull()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+
+        // Act
+        var result = zoo.GetAnimal(99);
+
+        // Assert
+        result.Should().BeNull();
+    }
 }
