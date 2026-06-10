@@ -115,4 +115,21 @@ public class ZooManagerTests
         // Assert
         result.Should().Be(2);
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-005")]
+    public void AddAnimal_DuplicateId_ThrowsDuplicateAnimalException()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore });
+        var duplicateAnimal = new Animal { Id = 1, Name = "Nala", Category = AnimalCategory.Carnivore };
+
+        // Act
+        var action = () => zoo.AddAnimal(duplicateAnimal);
+
+        // Assert
+        action.Should().Throw<DuplicateAnimalException>()
+            .WithMessage("An animal with id 1 already exists.");
+    }
 }
