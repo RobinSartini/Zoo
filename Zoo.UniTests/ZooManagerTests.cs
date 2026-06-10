@@ -171,4 +171,51 @@ public class ZooManagerTests
         // Assert
         result.Should().Be(50);
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-007")]
+    public void TotalCapacityUsed_CriticalAnimal_ConsumesTwoSpaces()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Critical });
+
+        // Act
+        var result = zoo.TotalCapacityUsed;
+
+        // Assert
+        result.Should().Be(2);
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-007")]
+    public void TotalCapacityUsed_OneHealthyAndOneCritical_ConsumesThreeSpaces()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Healthy });
+        zoo.AddAnimal(new Animal { Id = 2, Name = "Dumbo", Category = AnimalCategory.Herbivore, Status = HealthStatus.Critical });
+
+        // Act
+        var result = zoo.TotalCapacityUsed;
+
+        // Assert
+        result.Should().Be(3);
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-007")]
+    public void TotalCapacityUsed_TwoHealthyAnimals_ConsumesTwoSpaces()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Healthy });
+        zoo.AddAnimal(new Animal { Id = 2, Name = "Dumbo", Category = AnimalCategory.Herbivore, Status = HealthStatus.Healthy });
+
+        // Act
+        var result = zoo.TotalCapacityUsed;
+
+        // Assert
+        result.Should().Be(2);
+    }
 }
