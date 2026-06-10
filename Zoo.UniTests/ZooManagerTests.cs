@@ -430,4 +430,36 @@ public class ZooManagerTests
         // Assert
         result.Should().BeEmpty();
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-014")]
+    public void RemoveAnimal_ExistingAnimal_ReturnsTrueAndDecrementsTotal()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Healthy });
+
+        // Act
+        var result = zoo.RemoveAnimal(1);
+
+        // Assert
+        result.Should().BeTrue();
+        zoo.TotalAnimals.Should().Be(0);
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-014")]
+    public void GetAnimal_AfterRemoval_ReturnsNull()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(new Animal { Id = 1, Name = "Simba", Category = AnimalCategory.Carnivore, Status = HealthStatus.Healthy });
+        zoo.RemoveAnimal(1);
+
+        // Act
+        var result = zoo.GetAnimal(1);
+
+        // Assert
+        result.Should().BeNull();
+    }
 }
